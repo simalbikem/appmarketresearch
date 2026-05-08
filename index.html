@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App Market Research</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────── -->
+
+<header class="site-header">
+  <div class="logo-mark" aria-hidden="true">
+    <svg viewBox="0 0 18 18" fill="none" stroke="#0E0E10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 2L2 7v9h5v-4h4v4h5V7z"/>
+    </svg>
+  </div>
+  <div>
+    <div class="site-title">App Market Research</div>
+    <div class="site-sub">iOS · Apple iTunes API + Claude AI</div>
+  </div>
+</header>
+
+<!-- ── Main ────────────────────────────────────────────── -->
+
+<main class="main">
+
+  <!-- Hero -->
+
+  <div class="hero">
+    <h1 class="hero-title">iOS Pazar Analizi<br><span>App Store URL ile</span></h1>
+    <p class="hero-sub">
+      Rakipleri keşfet, review'ları AI ile kategorile, fırsat boşluklarını bul.<br>
+      Sadece ücretsiz Apple verileri — tarayıcıdan direkt çalışır.
+    </p>
+  </div>
+
+  <!-- Form card -->
+
+  <div class="form-card">
+    <div class="input-row">
+      <input
+        id="url-input"
+        class="url-input"
+        type="text"
+        placeholder="https://apps.apple.com/tr/app/.../id123456789 veya sadece ID"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button id="run-btn" class="run-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Analiz Et
+      </button>
+    </div>
+
+```
+<!-- Advanced toggle -->
+<div id="adv-toggle" class="adv-toggle">
+  <span id="adv-icon" class="adv-toggle-icon">›</span>
+  Gelişmiş seçenekler
+</div>
+
+<div id="adv-panel" class="adv-panel">
+  <div class="adv-grid">
+    <div>
+      <label class="field-label" for="regions-input">Bölgeler (virgülle)</label>
+      <input id="regions-input" class="field-input" type="text" value="us,gb,de,jp,tr" />
+    </div>
+    <div>
+      <label class="field-label" for="competitors-input">Rakip sayısı</label>
+      <input id="competitors-input" class="field-input" type="number" value="10" min="3" max="25" />
+    </div>
+  </div>
+  <div>
+    <label class="field-label" for="api-key-input">Claude API Key</label>
+    <div class="api-key-row">
+      <input id="api-key-input" class="field-input" type="password" placeholder="sk-ant-api..." autocomplete="off" />
+      <a class="key-link" href="https://console.anthropic.com/keys" target="_blank">Key al ↗</a>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- Error -->
+
+  <div id="error-card" class="error-card" role="alert"></div>
+
+  <!-- Progress -->
+
+  <div id="progress-area" class="progress-area" aria-live="polite">
+    <div class="progress-title">Veri toplanıyor</div>
+    <div class="progress-bar-wrap">
+      <div id="progress-fill" class="progress-bar-fill"></div>
+    </div>
+    <div id="progress-log" class="progress-log"></div>
+  </div>
+
+  <!-- Results -->
+
+  <div id="results-area" class="results-area">
+
+```
+<!-- App header card -->
+<div class="app-header-card">
+  <img id="app-icon" class="app-icon" src="" alt="" loading="lazy" />
+  <div class="app-info">
+    <div id="app-name" class="app-name"></div>
+    <div id="app-dev" class="app-dev"></div>
+    <div id="app-pills" class="app-pills"></div>
+  </div>
+</div>
+
+<!-- Difficulty card -->
+<div id="diff-card" class="diff-card">
+  <div class="diff-score-ring">
+    <svg viewBox="0 0 72 72" aria-hidden="true">
+      <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6"/>
+      <circle id="diff-ring-path" cx="36" cy="36" r="30" fill="none" stroke="#C8FB60" stroke-width="6"
+        stroke-linecap="round" stroke-dasharray="0 188.5"/>
+    </svg>
+    <div id="diff-score-num" class="diff-score-num">—</div>
+  </div>
+  <div class="diff-info">
+    <div id="diff-label" class="diff-label"></div>
+    <div id="diff-sub" class="diff-sub"></div>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab-btn active" data-tab="tab-competitors">Rakipler</button>
+  <button class="tab-btn" data-tab="tab-report">AI Raporu</button>
+</div>
+
+<!-- Competitors tab -->
+<div id="tab-competitors" class="tab-panel active">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Uygulama</th>
+          <th>Geliştirici</th>
+          <th>Rating</th>
+          <th>Yorum</th>
+          <th>Fiyat</th>
+          <th>Yıl</th>
+        </tr>
+      </thead>
+      <tbody id="comp-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Report tab -->
+<div id="tab-report" class="tab-panel">
+  <div class="export-bar">
+    <button class="export-btn" onclick="exportMarkdown()">↓ Markdown</button>
+    <button class="export-btn" onclick="exportJson()">↓ JSON</button>
+  </div>
+  <div class="report-card">
+    <div id="report-content"></div>
+  </div>
+</div>
+```
+
+  </div><!-- /results -->
+
+</main>
+
+<footer class="site-footer">
+  iTunes Lookup + Search + RSS · Rakip listesi rating proxy ile sıralanır (SensorTower CORS'u blokluyor).<br>
+  API key'iniz tarayıcıda saklanmaz — sayfa yenilenince sıfırlanır.
+</footer>
+
+<script type="module" src="app.js"></script>
+
+</body>
+</html>
